@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/layout_main"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/searchLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="10">
+
+        <EditText
+            android:id="@+id/searchPt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="9"
+            android:ems="10"
+            android:hint="search"
+            android:inputType="textPersonName" />
+
+        <ImageButton
+            android:id="@+id/searchBt"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:srcCompat="@android:drawable/ic_search_category_default" />
+
+        <Button
+            android:id="@+id/service"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="9"
+            android:onClick="startService"
+            android:text="service" />
+
+        <Button
+            android:id="@+id/serviceStop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="9"
+            android:onClick="stopService"
+            android:text="stop" />
+
+
+
+    </LinearLayout>
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/searchLayout"
+        android:layout_marginTop="0dp"
+        tools:context=".MapsActivity">
+
+
+    </fragment>
+
+    <TextView
+        android:id="@+id/selectAddressTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/addMemoBt"
+        android:layout_marginBottom="0dp"
+        android:background="#fff"
+        android:gravity="center"
+        android:text="Address"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/addMemoBt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/map"
+        android:layout_marginBottom="0dp"
+        android:background="#fff"
+        android:gravity="center"
+        android:text="메모 추가"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textSize="15sp" />
+
+    <!--<SlidingDrawer
+        android:id="@+id/slide"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:allowSingleTap="true"
+        android:animateOnClick="true"
+        android:bottomOffset="0dp"
+        android:content="@+id/content"
+        android:handle="@+id/handle"
+        android:orientation="vertical"
+        android:topOffset="60dp"
+        >
+
+        <TextView
+            android:id="@+id/handle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            />
+
+        <LinearLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#FFFFFFFF"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SlidingDrawer의 content 부분입니다."
+                />
+            <Button
+                android:id="@+id/btnclose"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="닫기"
+                />
+        </LinearLayout>
+    </SlidingDrawer>-->
+
+
+</RelativeLayout>

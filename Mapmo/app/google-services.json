@@ -1,0 +1,93 @@
+{
+  "project_info": {
+    "project_number": "698513919264",
+    "firebase_url": "https://mapmo-b79a7.firebaseio.com",
+    "project_id": "mapmo-b79a7",
+    "storage_bucket": "mapmo-b79a7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:698513919264:android:8b50e1c51decd6bee61b45",
+        "android_client_info": {
+          "package_name": "Maps.API"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "698513919264-sim0qq7jfld50jpp1d9a4ah8hhr695gs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "Maps.API",
+            "certificate_hash": "860e4a48ead83e4ddb0cad73fd05d5ff6f3dd7f2"
+          }
+        },
+        {
+          "client_id": "698513919264-k1p6a9oqk3lft04qfffm32snhlijb19q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDi_Mo21-RBW4xAHUskDglX22SoCZFROZY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "698513919264-k1p6a9oqk3lft04qfffm32snhlijb19q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:698513919264:android:3dc05472994e33ca",
+        "android_client_info": {
+          "package_name": "com.example.mapmo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "698513919264-lhe2933va2uhfbn6nd9gpkp0cne32qgr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mapmo",
+            "certificate_hash": "860e4a48ead83e4ddb0cad73fd05d5ff6f3dd7f2"
+          }
+        },
+        {
+          "client_id": "698513919264-73njd617kskbvpehs3gi0hi7itbsujgk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mapmo",
+            "certificate_hash": "e8982ae68ae29c36260038fdab7215259edbbcd5"
+          }
+        },
+        {
+          "client_id": "698513919264-k1p6a9oqk3lft04qfffm32snhlijb19q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDi_Mo21-RBW4xAHUskDglX22SoCZFROZY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "698513919264-k1p6a9oqk3lft04qfffm32snhlijb19q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".addMemoActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingBottom="20dp">
+
+        <EditText
+            android:id="@+id/titlePt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="제목"
+            android:inputType="textPersonName"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+        <Button
+            android:id="@+id/startDayBt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#fff5f5f5"
+            android:text="Button" />
+
+        <Button
+            android:id="@+id/finishDayBt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#fff5f5f5"
+            android:text="Button" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="장소 정보"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+        <TextView
+            android:id="@+id/addressTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/latitudeTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/longitudeTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+
+        <ListView
+            android:id="@+id/listview"
+            android:layout_width="match_parent"
+            android:layout_height="346dp"
+            android:background="@null"
+            android:scrollbars="none">
+
+        </ListView>
+        <!--
+            <LinearLayout
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="추가"
+                    tools:layout_editor_absoluteX="0dp"
+                    tools:layout_editor_absoluteY="0dp" />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/remove"
+                    android:text="삭제"
+                    tools:layout_editor_absoluteY="0dp"
+                    tools:layout_editor_absoluteX="0dp" />
+
+            </LinearLayout>
+-->
+
+    </LinearLayout>
+
+
+
+
+
+</ScrollView>
+<!--
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+tools:context=".addMemoActivity">
+
+<EditText
+    android:id="@+id/titlePt"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:ems="10"
+    android:hint="제목"
+    android:inputType="textPersonName"
+    android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+<Button
+    android:id="@+id/startDayBt"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff5f5f5"
+    android:text="Button" />
+
+<Button
+    android:id="@+id/finishDayBt"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff5f5f5"
+    android:text="Button" />
+
+<TextView
+    android:id="@+id/textView2"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="장소 정보"
+    android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+<TextView
+    android:id="@+id/addressTv"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="TextView" />
+
+<TextView
+    android:id="@+id/latitudeTv"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="TextView" />
+
+<TextView
+    android:id="@+id/longitudeTv"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="TextView" />
+
+<ListView
+    android:id="@+id/listview"
+    android:layout_width="match_parent"
+    android:layout_height="408dp"
+    android:background="@null"
+    android:scrollbars="none"
+    android:visibility="visible">
+
+</ListView>
+
+
+    <LinearLayout
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/add"
+            android:layout_width="wrap_content"
+            android:layout_height="88dp"
+            android:text="추가"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="0dp" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/remove"
+            android:text="삭제"
+            tools:layout_editor_absoluteY="0dp"
+            tools:layout_editor_absoluteX="0dp" />
+
+    </LinearLayout>
+
+
+
+
+
+</LinearLayout>
+-->
