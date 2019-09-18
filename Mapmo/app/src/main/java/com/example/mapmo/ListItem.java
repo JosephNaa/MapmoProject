@@ -1,17 +1,12 @@
 package com.example.mapmo;
 
 public class ListItem {
-    private String name;
-    private int num;
+    private String content;
     boolean check;
 
-    public int getNum() { return num; }
+    public String getContent() { return content; }
 
-    public void setNum(int num) { this.num = num; }
-
-    public String getName() { return name; }
-
-    public void setName(String name) { this.name = name; }
+    public void setContent(String content) { this.content = content; }
 
     public boolean isCheck() { return check;}
 
