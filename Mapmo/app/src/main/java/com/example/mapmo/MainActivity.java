@@ -71,6 +71,7 @@ import java.util.Random;
 
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback, GeoQueryEventListener {
+    DBHandler dbHandler = DBHandler.open(this);
 
     // 처음에만 내위치 찾아가도록 하기위해서
     public boolean start = false;
@@ -172,52 +173,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, addMemoActivity.class);
-                startActivity(intent);
-               /* AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-
-                builder.setTitle("제목 입력");
-                final EditText titleEdit = new EditText(MainActivity.this);
-                builder.setView(titleEdit);
-
-                builder.setPositiveButton("생성", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String title = titleEdit.getText().toString();
-
-                        String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-
-                        long cnt=0;
-
-                        //제목란이 비었을 경우
-                        if(TextUtils.isEmpty(title)) {
-                            //Toast.makeText(MainActivity.this,"제목을 입력하세요.",Toast.LENGTH_SHORT).show();
-
-                        }else{
-                            cnt = dbHandler.insert_memo(title, today, today, addMarkerAddress, addMarkerLatitude, addMarkerLongitude);
-
-                            if(cnt == -1)
-                                Toast.makeText(MainActivity.this, "저장 오류", Toast.LENGTH_SHORT).show();
-                            else
-                                Toast.makeText(MainActivity.this,"저장 성공", Toast.LENGTH_SHORT).show();
-
-                            //생성한 메모의 id 조회하여 메모화면에 넘겨주기위하여
-                            Cursor cursor = dbHandler.select_memo();
-                            cursor.moveToLast();
-
-                            //현재 생성된 메모의 id값 얻어오기
-                            int now_id = cursor.getInt(0);
-
-                            dbHandler.close();
-
-                            Intent intent = new Intent(MainActivity.this, addMemoActivity.class);
-                            intent.putExtra("now_id", now_id);
-                            startActivity(intent);
-                        }
-                    }
-                });
-
-                final AlertDialog dialog = builder.create();
-                dialog.show();*/
+                startActivityForResult(intent, 100);
             }
         });
 
@@ -800,13 +756,37 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                         Log.d(TAG, "onActivityResult : GPS 활성화 되있음");
 
-
                         needRequest = true;
 
                         return;
                     }
                 }
+                break;
 
+            case 100:
+                //새로 추가된 메모의 마커 표시
+                if(resultCode==RESULT_OK){
+                    int new_id = data.getIntExtra("new_id",0);
+
+                    Cursor cursor = dbHandler.select_memo();
+                    cursor.moveToLast();
+
+                    String title = cursor.getString(1);
+                    String start = cursor.getString(2);
+                    String finish = cursor.getString(3);
+                    String address = cursor.getString(4);
+                    String lat = cursor.getString(5);
+                    String lon = cursor.getString(6);
+
+                    Log.d("title",title);
+                    Log.d("lat",lat);
+                    Log.d("lon",lon);
+
+                    //LatLng newMemo = new LatLng(Double.parseDouble(lat),Double.parseDouble(lon));
+                    LatLng newMemo = new LatLng(36.1455000,128.3943434);
+                    mMap.addMarker(new MarkerOptions().position(newMemo).title(title).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).alpha(0.5f));
+
+                }
                 break;
         }
     }

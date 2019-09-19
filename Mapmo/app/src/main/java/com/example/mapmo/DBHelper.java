@@ -16,7 +16,7 @@ public class DBHelper extends SQLiteOpenHelper {
         String memo_table =
                 "CREATE TABLE memo(" +
                         "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                        "title TEXT DEFAULT '제목 없음'," +
+                        "title TEXT NOT NULL DEFAULT '제목 없음'," +
                         "start_date TEXT NOT NULL," +
                         "finish_date TEXT NOT NULL," +
                         "location TEXT NOT NULL," +
