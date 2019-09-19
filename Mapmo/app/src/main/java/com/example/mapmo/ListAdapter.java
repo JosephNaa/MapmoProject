@@ -48,7 +48,7 @@ public class ListAdapter extends ArrayAdapter {
         final Context context = parent.getContext();
         final ViewHolder holder;
 
-        // "listview_memo" Layout을 inflate하여 convertView 참조 획득.
+        // "listview_item" Layout을 inflate하여 convertView 참조 획득.
         if (convertView == null) {
             holder = new ViewHolder();
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
