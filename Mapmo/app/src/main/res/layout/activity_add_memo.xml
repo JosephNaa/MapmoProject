@@ -52,14 +52,16 @@
             android:layout_height="386dp"
             android:background="#FBFFB9"
             android:divider="@color/common_google_signin_btn_text_dark_disabled"
-            android:scrollbars="none"></ListView>
+            android:scrollbars="none" />
 
         <Button
             android:id="@+id/add"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:background="@drawable/plus"
             android:layout_gravity="right"
+            android:layout_marginRight="30sp"
+            android:layout_marginTop="15sp"
+            android:background="@drawable/plus"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="0dp" />
 
