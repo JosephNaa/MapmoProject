@@ -96,8 +96,6 @@ public class addMemoActivity extends AppCompatActivity implements View.OnClickLi
         startDayBt = (Button) findViewById(R.id.startDayBt);
         finishDayBt = (Button) findViewById(R.id.finishDayBt);
         addressTv = (TextView) findViewById(R.id.addressTv);
-        latitudeTv = (TextView) findViewById(R.id.latitudeTv);
-        longitudeTv = (TextView) findViewById(R.id.longitudeTv);
 
         //정혜원
         titleEdit = (EditText)findViewById(R.id.titlePt);
@@ -146,8 +144,6 @@ public class addMemoActivity extends AppCompatActivity implements View.OnClickLi
         finishDayBt.setText(memo_finish);
 
         addressTv.setText(addMarkerAddress);
-        latitudeTv.setText(MainActivity.addMarkerLatitude);
-        longitudeTv.setText(MainActivity.addMarkerLongitude);
 
         ((Button)findViewById(R.id.startDayBt)).setOnClickListener(this);
         ((Button)findViewById(R.id.finishDayBt)).setOnClickListener(this);

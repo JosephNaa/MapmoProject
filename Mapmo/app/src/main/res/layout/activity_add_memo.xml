@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FBFFB9"
     android:orientation="vertical"
     tools:context=".addMemoActivity">
 
@@ -12,29 +13,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="제목"
+            android:hint="Title"
             android:inputType="textPersonName"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
         <Button
-            android:id="@+id/startDayBt"
+            android:id="@+id/finishDayBt"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#fff5f5f5"
+            android:background="#FBFFB9"
             android:text="Button" />
 
         <Button
-            android:id="@+id/finishDayBt"
+            android:id="@+id/startDayBt"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#fff5f5f5"
+            android:background="#FBFFB9"
             android:text="Button" />
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="장소 정보"
+            android:text="Address"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
         <TextView
@@ -43,23 +46,11 @@
             android:layout_height="wrap_content"
             android:text="TextView" />
 
-        <TextView
-            android:id="@+id/latitudeTv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
-
-        <TextView
-            android:id="@+id/longitudeTv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
-
         <Button
             android:id="@+id/add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="추가"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@drawable/plus"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="0dp" />
 
@@ -67,8 +58,8 @@
             android:id="@+id/listview"
             android:layout_width="match_parent"
             android:layout_height="386dp"
-            android:background="@null"
-            android:scrollbars="none">
-        </ListView>
+            android:background="#FBFFB9"
+            android:divider="@color/common_google_signin_btn_text_dark_disabled"
+            android:scrollbars="none"></ListView>
 
 </LinearLayout>
