@@ -35,6 +35,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static com.example.mapmo.MainActivity.addMarkerAddress;
 
@@ -53,17 +54,19 @@ public class addMemoActivity extends AppCompatActivity implements View.OnClickLi
     public EditText titleEdit;
     public Button addBtn;
 
-   // private String startDate;
-    //private String finishDate;
 
     private int memo_id;
-    private String memo_title;
     private String memo_start;
     private String memo_finish;
 
     private ListAdapter adapter;
     private ListView listView;
     private ArrayList<ListItem> items;
+<<<<<<< HEAD
+=======
+   // ListItem item;
+   DBHandler dbHandler = DBHandler.open(this);
+>>>>>>> master
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,38 +104,6 @@ public class addMemoActivity extends AppCompatActivity implements View.OnClickLi
         titleEdit = (EditText)findViewById(R.id.titlePt);
        //addBtn = (Button)findViewById(R.id.addMemoBt);
 
-        /*
-        DBHandler dbHandler = DBHandler.open(this);
-
-        //MainActivitiy에서 데이터 받기 (memo_id)
-        Intent intent = getIntent();
-        int now_id = intent.getExtras().getInt("now_id");
-        Log.d("now_id", String.valueOf(now_id));
-
-        Cursor cursor = dbHandler.select_memo();
-       // int count = cursor.getCount();
-
-        cursor.moveToFirst();
-        //커서가 끝나지 않을 때 까지 받아온 id에 해당하는 memo 레코드 받기
-        while(cursor.isAfterLast()==false){
-            memo_id = cursor.getInt(0);
-
-            if(memo_id == now_id){
-                Log.d("memo_id", String.valueOf(memo_id));
-
-                memo_title = cursor.getString(1);
-                memo_start = cursor.getString(2);
-                memo_finish = cursor.getString(3);
-
-                break;
-            }
-            cursor.moveToNext();
-        }
-
-        titleEdit.setText(memo_title);
-        startDayBt.setText(memo_start);
-        finishDayBt.setText(memo_finish);*/
-
 
         long now = System.currentTimeMillis();
         Date date = new Date(now);
@@ -161,23 +132,51 @@ public class addMemoActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==R.id.saveBtn){
-            DBHandler dbHandler = DBHandler.open(this);
+        if(item.getItemId()==R.id.saveBtn){ //새로 생성시
 
             String title = titleEdit.getText().toString();
 
-            long cnt=0;
+            if(TextUtils.isEmpty(title))
+                title = "제목 없음";
 
-            if(TextUtils.isEmpty(title)) {
-                Toast.makeText(this,"제목을 입력하세요.",Toast.LENGTH_SHORT).show();
+            long cnt=0;
+            long cnt_=0;
+
+            if(items.size()==0) {
+                Toast.makeText(this,"입력한 내용이 없어 저장하지 않았습니다.",Toast.LENGTH_SHORT).show();
+                dbHandler.close();
+                finish();
 
             }else {
                 cnt = dbHandler.insert_memo(title, memo_start, memo_finish, addMarkerAddress, MainActivity.addMarkerLatitude, MainActivity.addMarkerLongitude);
 
                 if (cnt == -1)
                     Toast.makeText(this, "저장 오류", Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(this, "저장 성공", Toast.LENGTH_SHORT).show();
+                else {
+                    Cursor cursor = dbHandler.select_memo();
+                    cursor.moveToLast();
+
+                    //현재 생성된 메모의 id값 얻어오기
+                    int new_id = cursor.getInt(0);
+
+                    for(int i=0; i<items.size(); i++){
+                        int check = items.get(i).isCheck() ? 1 : 0;
+                        cnt_ = dbHandler.insert_content(new_id, items.get(i).getContent(), check);
+
+                        if(cnt_ == -1)
+                            Toast.makeText(this, "저장 오류", Toast.LENGTH_SHORT).show();
+                    }
+
+                    if(cnt_!=-1)
+                        Toast.makeText(this, "저장 성공", Toast.LENGTH_SHORT).show();
+
+                    dbHandler.close();
+
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra("new_id", new_id);
+                    setResult(RESULT_OK,resultIntent);
+                    finish();
+                }
 
             }
         }
