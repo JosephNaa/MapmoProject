@@ -124,7 +124,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN); // 키보드생성시 화면 스크롤위함
+        getSupportActionBar().setElevation(0); //액션바 그림자 제거
         //데이터베이스 open
         final DBHandler dbHandler = DBHandler.open(getBaseContext());
 
