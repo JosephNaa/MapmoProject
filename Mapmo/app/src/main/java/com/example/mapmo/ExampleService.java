@@ -16,6 +16,8 @@ import static com.example.mapmo.App.CHANNEL_ID;
 
 public class ExampleService extends Service {
 
+    public static boolean serviceStart = false;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -40,6 +42,8 @@ public class ExampleService extends Service {
 
         //do heavy work on a background thread
         //stopSelf();
+
+        serviceStart = true;
 
         return START_NOT_STICKY;
     }

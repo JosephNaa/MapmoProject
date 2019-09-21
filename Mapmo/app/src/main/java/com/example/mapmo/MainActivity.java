@@ -152,6 +152,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         //김태성 버튼을 스위치로 변경
         serviceSwitch = (Switch) findViewById(R.id.serviceSwitch);
         serviceText = (TextView) findViewById(R.id.serviceText);
+        // 서비스 상태 확인 하고 스위치 표시
+        if (ExampleService.serviceStart == true)
+        {
+            serviceText.setText("Service ON");
+            serviceSwitch.setChecked(true);
+        }
+        else
+        {
+            serviceText.setText("Service OFF");
+            serviceSwitch.setChecked(false);
+        }
+
         serviceSwitch.setOnCheckedChangeListener((new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -425,13 +437,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         for(LatLng latLng : dangerousArea)
         {
             mMap.addCircle(new CircleOptions().center(latLng)
-                    .radius(30) //500m
+                    .radius(100) //500m
                     .strokeColor(Color.BLUE)
                     .fillColor(0x220000FF)
                     .strokeWidth(5.0f)
+                    .strokeWidth(5.0f)
             );
 
-            GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(latLng.latitude,latLng.longitude), 0.030f); //500m
+            GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(latLng.latitude,latLng.longitude), 0.100f); //500m
             geoQuery.addGeoQueryEventListener(MainActivity.this);
         }
     }
