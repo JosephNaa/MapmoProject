@@ -34,32 +34,26 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:background="@drawable/search_btn"
-            style="?android:attr/borderlessButtonStyle"/>
+            android:layout_marginLeft="10dp"/>
 
-        <Button
-            android:id="@+id/service"
+        <TextView
+            android:id="@+id/serviceText"
+            android:layout_weight="9"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="Service OFF"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:textSize="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"/>
+
+        <Switch
+            android:id="@+id/serviceSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="9"
-            android:onClick="startService"
-            android:text="play"
-            android:textColor="@android:color/white"
-            android:background="#60c5ba"
-            android:textSize="20dp"
-            android:textStyle="bold"/>
-
-        <Button
-            android:id="@+id/serviceStop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="9"
-            android:onClick="stopService"
-            android:text="stop"
-            android:textColor="@android:color/white"
-            android:background="#60c5ba"
-            android:textSize="20dp"
-            android:textStyle="bold"/>
-
+            android:layout_marginRight="10dp"
+            />
 
 
     </LinearLayout>

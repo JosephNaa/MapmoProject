@@ -24,8 +24,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -85,10 +87,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public EditText searchPt;
     public ImageButton searchBt;
     private Geocoder geocoderSearch;
-    public Button service;
-    public Button serviceStop;
     private GoogleMap mMap;
     private Marker currentMarker = null;
+
+
+    // 김태성 버튼을 스위치로
+    public Switch serviceSwitch;
+    public TextView serviceText;
 
     private static final String TAG = "googlemap_example";
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
@@ -144,8 +149,28 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         searchPt = (EditText) findViewById(R.id.searchPt);
         searchBt = (ImageButton) findViewById(R.id.searchBt);
 
+        //김태성 버튼을 스위치로 변경
+        serviceSwitch = (Switch) findViewById(R.id.serviceSwitch);
+        serviceText = (TextView) findViewById(R.id.serviceText);
+        serviceSwitch.setOnCheckedChangeListener((new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    String input = "Mapmo가 실행중입니다";
+                    serviceText.setText("Service ON");
+                    Intent serviceIntent = new Intent(MainActivity.this,ExampleService.class);
+                    serviceIntent.putExtra("inputExtra",input);
+                    startService(serviceIntent);
+                }
+                else{
+                    serviceText.setText("Service OFF");
+                    Intent serviceIntent = new Intent(MainActivity.this,ExampleService.class);
+                    stopService(serviceIntent);
+                }
+            }
+        }));
 
-
+        /* 기존에 사용하던 서비스 버튼
         service = (Button) findViewById(R.id.service);
         service.setOnClickListener(new Button.OnClickListener() {
             @Override
@@ -166,7 +191,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Intent serviceIntent = new Intent(MainActivity.this,ExampleService.class);
                 stopService(serviceIntent);
             }
-        });
+        });*/
 
 
         //메모 생성 (제목, 장소, 현재날짜) ***********************************************************
