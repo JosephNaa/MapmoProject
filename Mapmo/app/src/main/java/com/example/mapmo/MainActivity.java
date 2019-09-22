@@ -125,6 +125,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private View mLayout;  // Snackbar 사용하기 위해서는 View가 필요합니다.
     // (참고로 Toast에서는 Context가 필요했습니다.)
 
+    public MarkerOptions makerOptions;
+    public Marker markerSelect;
+    public boolean markerCheck = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -233,11 +237,36 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // onMapReady 호출
         mapFragment.getMapAsync(this);
 
-        initArea();
+        //initArea();
         settingGeoFire();
+
+
 
     }
 
+    private void openDB() {
+
+        dangerousArea = new ArrayList<>();
+        Cursor cursor = dbHandler.select_memo();
+        cursor.moveToFirst();
+        for (int i=0; i<cursor.getCount();i++)
+        {
+            String title = cursor.getString(1);
+            String start = cursor.getString(2);
+            String finish = cursor.getString(3);
+            String address = cursor.getString(4);
+            String lat = cursor.getString(5);
+            String lon = cursor.getString(6);
+            LatLng newMemo = new LatLng(Double.parseDouble(lat),Double.parseDouble(lon));
+            mMap.addMarker(new MarkerOptions().position(newMemo).title(title).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).alpha(0.5f));
+
+            dangerousArea.add(newMemo);
+
+
+            cursor.moveToNext();
+        }
+
+    }
 
 
     public static void initArea() {
@@ -248,9 +277,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-    public static void settingGeoFire() {
 
-        myLccationRef = FirebaseDatabase.getInstance().getReference("myLocation");
+    public void settingGeoFire() {
+        getUUID deviceid = new getUUID(MainActivity.this);
+        myLccationRef = FirebaseDatabase.getInstance().getReference(deviceid.getDeviceUuid()+"");
         geoFire = new GeoFire(myLccationRef);
     }
 
@@ -260,6 +290,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Log.d(TAG, "onMapReady :");
 
         mMap = googleMap;
+
+
 
         //마커클릭 리스터 지정
         //mMap.setOnMarkerClickListener(this);
@@ -320,10 +352,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+
+        openDB();
+        
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
 
             @Override
             public void onMapLongClick(LatLng point) {
+
+                if (markerCheck == true)
+                {
+                    markerSelect.remove();
+                }
 
                 // 현재 위도와 경도에서 화면 포인트를 알려준다
                 Point screenPt = mMap.getProjection().toScreenLocation(point);
@@ -335,7 +375,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 LatLng mAddMarker = new LatLng(Double.parseDouble(String.valueOf(point.latitude)),Double.parseDouble( String.valueOf(point.longitude)));
 
                 // 구글 맵에 표시할 마커에 대한 옵션 설정
-                MarkerOptions makerOptions = new MarkerOptions();
+                makerOptions = new MarkerOptions();
                 makerOptions
                         .position(mAddMarker)
                         .title(getCurrentAddress(mAddMarker))
@@ -344,7 +384,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
 
                 // 마커를 생성한다.
-                mMap.addMarker(makerOptions);
+                markerSelect = mMap.addMarker(makerOptions);
+                markerCheck = true;
 
                 //메모 추가에 들어갈 위치 정보
                 addMarkerAddress = getCurrentAddress(mAddMarker);
@@ -380,6 +421,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onMapClick(LatLng point) {
                 selectAddressTv.setVisibility(View.INVISIBLE);
                 addMemoBt.setVisibility(View.INVISIBLE);
+                if (markerCheck == true)
+                {
+                    markerSelect.remove();
+                }
+
             }
         });
 
@@ -441,7 +487,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     .strokeColor(Color.BLUE)
                     .fillColor(0x220000FF)
                     .strokeWidth(5.0f)
-                    .strokeWidth(5.0f)
             );
 
             GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(latLng.latitude,latLng.longitude), 0.100f); //500m
@@ -471,8 +516,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 startService(serviceIntent);*/
 
+
+
                 //
-                geoFire.setLocation("You", new GeoLocation(location.getLatitude(),
+                geoFire.setLocation("me", new GeoLocation(location.getLatitude(),
                         location.getLongitude()), new GeoFire.CompletionListener() {
                     @Override
                     public void onComplete(String key, DatabaseError error) {
@@ -810,6 +857,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     Cursor cursor = dbHandler.select_memo();
                     cursor.moveToLast();
 
+
                     String title = cursor.getString(1);
                     String start = cursor.getString(2);
                     String finish = cursor.getString(3);
@@ -821,9 +869,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     Log.d("lat",lat);
                     Log.d("lon",lon);
 
-                    //LatLng newMemo = new LatLng(Double.parseDouble(lat),Double.parseDouble(lon));
-                    LatLng newMemo = new LatLng(36.1455000,128.3943434);
+                    LatLng newMemo = new LatLng(Double.parseDouble(lat),Double.parseDouble(lon));
                     mMap.addMarker(new MarkerOptions().position(newMemo).title(title).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).alpha(0.5f));
+                    dangerousArea.add(newMemo);
+                    mMap.addCircle(new CircleOptions().center(newMemo)
+                            .radius(100) //500m
+                            .strokeColor(Color.BLUE)
+                            .fillColor(0x220000FF)
+                            .strokeWidth(5.0f)
+                    );
+
+                    GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(newMemo.latitude,newMemo.longitude), 0.100f); //500m
+                    geoQuery.addGeoQueryEventListener(MainActivity.this);
 
                 }
                 break;
@@ -832,15 +889,39 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onKeyEntered(String key, GeoLocation location) {
-        Toast.makeText(this, "지오펜스 영역에 들어왔습니다!", Toast.LENGTH_SHORT).show();
-        //Log.i("문제", "여기서 문제");
-        sendNotification("Mapmo", "지오펜스 영역에 들어왔습니다!");
+        Location locationA = new Location("pointA");
+        Location locationB = new Location("pointB");
+        locationA.setLatitude(location.latitude);
+        locationA.setLongitude(location.longitude);
+        Cursor cursor = dbHandler.select_memo();
+        cursor.moveToFirst();
+        for (int i=0; i<cursor.getCount();i++)
+        {
+            String title = cursor.getString(1);
+            String start = cursor.getString(2);
+            String finish = cursor.getString(3);
+            String address = cursor.getString(4);
+            String lat = cursor.getString(5);
+            String lon = cursor.getString(6);
+            //LatLng newMemo = new LatLng(Double.parseDouble(lat),Double.parseDouble(lon));
+            locationB.setLatitude(Double.parseDouble(lat));
+            locationB.setLongitude(Double.parseDouble(lon));
+
+            if (locationA.distanceTo(locationB)<100)
+            {
+                sendNotification("Mapmo", title+"영역에 들어왔습니다!");
+            }
+
+            cursor.moveToNext();
+        }
+
+
     }
 
     @Override
     public void onKeyExited(String key) {
-        sendNotification("Mapmo", "지오펜스 영역에서 나왔습니다!");
-        Toast.makeText(this, "지오펜스 영역에서 나왔습니다!", Toast.LENGTH_SHORT).show();
+        sendNotification("Mapmo", "메모영역에서 나오셨습니다. 잊으신 일 없으신가요? ");
+        //Toast.makeText(this, "지오펜스 영역에서 나왔습니다!", Toast.LENGTH_SHORT).show();
     }
 
     @Override

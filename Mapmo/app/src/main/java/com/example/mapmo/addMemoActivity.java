@@ -181,7 +181,7 @@ public class addMemoActivity extends AppCompatActivity implements View.OnClickLi
                     dbHandler.close();
 
                     Intent resultIntent = new Intent();
-                    resultIntent.putExtra("new_id", new_id);
+                    resultIntent.putExtra("new_id", new_id); //
                     setResult(RESULT_OK,resultIntent);
                     finish();
                 }

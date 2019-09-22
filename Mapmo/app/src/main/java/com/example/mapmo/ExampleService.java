@@ -10,8 +10,6 @@ import androidx.core.app.NotificationCompat;
 
 import static com.example.mapmo.App.CHANNEL_ID;
 
-//import android.support.v4.app.NotificationCompat;
-
 
 
 public class ExampleService extends Service {
