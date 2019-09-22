@@ -71,6 +71,21 @@ public class addMemoActivity extends AppCompatActivity implements View.OnClickLi
         listView.setAdapter(adapter);
         listView.setOnItemLongClickListener( new ListViewItemLongClickListener() );
 
+        //플로팅버튼으로 했을 시
+//        FloatingActionButton addButton = findViewById(R.id.add) ;
+//        addButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String content = "";
+//                ListItem item = new ListItem();
+//                item.setContent(content);
+//                //Log.d("item1", String.valueOf(items.size()));
+//                items.add(item);
+//                //Log.d("item", String.valueOf(items.size()));
+//                adapter.notifyDataSetChanged();
+//            }
+//        }) ;
+
         //추가하기 버튼
         Button addButton = (Button)findViewById(R.id.add) ;
         addButton.setOnClickListener(new View.OnClickListener() {
