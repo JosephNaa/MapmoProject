@@ -12,8 +12,6 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-2176" />
-    <option name="y" value="-4" />
     <option name="width" value="1547" />
     <option name="height" value="935" />
   </component>
@@ -22,29 +20,14 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="MapMo Project" type="b2602c69:ProjectViewProjectNode" />
-              <item name="MapMo Project" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="MapMo Project" type="b2602c69:ProjectViewProjectNode" />
-              <item name="MapMo Project" type="462c0819:PsiDirectoryNode" />
-              <item name="Mapmo" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
+      <pane id="PackagesPane" />
+      <pane id="ProjectPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="android.sdk.path" value="$USER_HOME$/Library/Android/sdk" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Mapmo/app" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -72,10 +55,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-2176" y="-4" width="1547" height="935" extended-state="0" />
+    <frame x="0" y="0" width="1547" height="935" extended-state="0" />
     <layout>
       <window_info id="Captures" order="0" weight="0.25" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.3296199" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.3286945" />
       <window_info id="Structure" order="2" side_tool="true" />
       <window_info id="Image Layers" order="3" />
       <window_info id="Designer" order="4" />
