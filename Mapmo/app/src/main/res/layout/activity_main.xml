@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="10"
-        android:background="#60c5ba">
+        android:background="#EE8772">
 
         <EditText
             android:id="@+id/searchPt"
@@ -62,7 +62,7 @@
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="685dp"
+        android:layout_height="match_parent"
         android:layout_below="@+id/searchLayout"
         android:layout_marginTop="-1dp"
         tools:context=".MapsActivity">
@@ -76,7 +76,7 @@
         android:layout_height="47dp"
         android:layout_above="@+id/addMemoBt"
         android:layout_marginBottom="0dp"
-        android:background="#60c5ba"
+        android:background="#EE8772"
         android:gravity="center"
         android:text="Address"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
@@ -90,7 +90,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/map"
         android:layout_marginBottom="0dp"
-        android:background="#60c5ba"
+        android:background="#EE8772"
         android:gravity="center"
         android:text="메모 추가"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"

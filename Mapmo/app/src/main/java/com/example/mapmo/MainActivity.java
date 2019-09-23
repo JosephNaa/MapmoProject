@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN); // 키보드생성시 화면 스크롤위함
-        getSupportActionBar().setElevation(0); //액션바 그림자 제거
+        //getSupportActionBar().setElevation(0); //액션바 그림자 제거
         //데이터베이스 open
         final DBHandler dbHandler = DBHandler.open(getBaseContext());
 
@@ -484,8 +484,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         {
             mMap.addCircle(new CircleOptions().center(latLng)
                     .radius(100) //500m
-                    .strokeColor(Color.BLUE)
-                    .fillColor(0x220000FF)
+                    .strokeColor(Color.rgb(238,135,114))
+                    .fillColor(0x22ed8672)
                     .strokeWidth(5.0f)
             );
 
@@ -874,8 +874,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     dangerousArea.add(newMemo);
                     mMap.addCircle(new CircleOptions().center(newMemo)
                             .radius(100) //500m
-                            .strokeColor(Color.BLUE)
-                            .fillColor(0x220000FF)
+                            .strokeColor(Color.rgb(238,135,114))
+                            .fillColor(0x22ed8672)
                             .strokeWidth(5.0f)
                     );
 
@@ -914,7 +914,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             cursor.moveToNext();
         }
-
 
     }
 
