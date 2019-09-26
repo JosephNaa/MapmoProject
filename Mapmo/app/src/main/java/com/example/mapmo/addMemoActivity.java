@@ -125,11 +125,12 @@ public class addMemoActivity extends AppCompatActivity implements View.OnClickLi
 
         ((Button)findViewById(R.id.startDayBt)).setOnClickListener(this);
         ((Button)findViewById(R.id.finishDayBt)).setOnClickListener(this);
+        ((Button)findViewById(R.id.confirm_btn)).setOnClickListener(this);
 
     }
 
     //상단바 저장 버튼 추가 (res/menu/menu 연결)
-
+/*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
@@ -190,7 +191,7 @@ public class addMemoActivity extends AppCompatActivity implements View.OnClickLi
         }
         return super.onOptionsItemSelected(item);
     }
-
+*/
     @Override
     public void onClick(View v) {
         if(v.getId()== R.id.startDayBt){
@@ -248,6 +249,53 @@ public class addMemoActivity extends AppCompatActivity implements View.OnClickLi
                 }
             });
             calendarDl.show();
+        }else if(v.getId()==R.id.confirm_btn){
+            Log.d("btn","버튼 눌림");
+            String title = titleEdit.getText().toString();
+
+            if(TextUtils.isEmpty(title))
+                title = "제목 없음";
+
+            long cnt=0;
+            long cnt_=0;
+
+            if(items.size()==0) {
+                Toast.makeText(this,"입력한 내용이 없어 저장하지 않았습니다.",Toast.LENGTH_SHORT).show();
+                dbHandler.close();
+                finish();
+
+            }else {
+                cnt = dbHandler.insert_memo(title, memo_start, memo_finish, addMarkerAddress, MainActivity.addMarkerLatitude, MainActivity.addMarkerLongitude);
+
+                if (cnt == -1)
+                    Toast.makeText(this, "저장 오류", Toast.LENGTH_SHORT).show();
+                else {
+                    Cursor cursor = dbHandler.select_memo();
+                    cursor.moveToLast();
+
+
+                    //현재 생성된 메모의 id값 얻어오기
+                    int new_id = cursor.getInt(0);
+
+                    for (int i = 0; i < items.size(); i++) {
+                        int check = items.get(i).isCheck() ? 1 : 0;
+                        cnt_ = dbHandler.insert_content(new_id, items.get(i).getContent(), check);
+
+                        if (cnt_ == -1)
+                            Toast.makeText(this, "저장 오류", Toast.LENGTH_SHORT).show();
+                    }
+
+                    if (cnt_ != -1)
+                        Toast.makeText(this, "저장 성공", Toast.LENGTH_SHORT).show();
+
+                    dbHandler.close();
+
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra("new_id", new_id); //
+                    setResult(RESULT_OK, resultIntent);
+                    finish();
+                }
+            }
         }
     }
 

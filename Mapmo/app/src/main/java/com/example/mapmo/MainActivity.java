@@ -9,7 +9,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -20,6 +19,7 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -64,13 +64,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback, GeoQueryEventListener {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback, GeoQueryEventListener, GoogleMap.OnMarkerClickListener {
     DBHandler dbHandler = DBHandler.open(this);
 
     // 처음에만 내위치 찾아가도록 하기위해서
@@ -126,6 +128,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public MarkerOptions makerOptions;
     public Marker markerSelect;
     public boolean markerCheck = false;
+
+    public Marker markerDB;
 
 
     @Override
@@ -243,12 +247,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void openDB() {
-
+        mMap.clear();
         dangerousArea = new ArrayList<>();
+        dangerousArea.clear();
         Cursor cursor = dbHandler.select_memo();
         cursor.moveToFirst();
         for (int i=0; i<cursor.getCount();i++)
         {
+            int id = cursor.getInt(0);
             String title = cursor.getString(1);
             String start = cursor.getString(2);
             String finish = cursor.getString(3);
@@ -256,24 +262,28 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             String lat = cursor.getString(5);
             String lon = cursor.getString(6);
             LatLng newMemo = new LatLng(Double.parseDouble(lat),Double.parseDouble(lon));
-            mMap.addMarker(new MarkerOptions().position(newMemo).title(title).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).alpha(0.5f));
+            markerDB = mMap.addMarker(new MarkerOptions().position(newMemo).title(title).snippet(id+"").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).alpha(0.5f));
+            markerDB.showInfoWindow();
 
             dangerousArea.add(newMemo);
-
-
             cursor.moveToNext();
+        }
+
+        for(LatLng latLng : dangerousArea)
+        {
+            mMap.addCircle(new CircleOptions().center(latLng)
+                    .radius(100) //500m
+                    .strokeColor(Color.rgb(238,135,114))
+                    .fillColor(0x22ed8672)
+                    .strokeWidth(5.0f)
+            );
+
+            GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(latLng.latitude,latLng.longitude), 0.100f); //500m
+            geoQuery.addGeoQueryEventListener(MainActivity.this);
         }
 
     }
 
-
-    public static void initArea() {
-        dangerousArea = new ArrayList<>();
-        dangerousArea.add(new LatLng(36.145618, 128.3931832));
-        dangerousArea.add(new LatLng(36.147534, 128.390524));
-        dangerousArea.add(new LatLng(36.138174, 128.421483));
-
-    }
 
 
     public void settingGeoFire() {
@@ -292,11 +302,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         //마커클릭 리스터 지정
-        //mMap.setOnMarkerClickListener(this);
+        mMap.setOnMarkerClickListener(this);
 
         //런타임 퍼미션 요청 대화상자나 GPS 활성 요청 대화상자 보이기전에
         //지도의 초기위치를 서울로 이동
         setDefaultLocation();
+
 
         //런타임 퍼미션 처리
         // 1. 위치 퍼미션을 가지고 있는지 체크합니다.
@@ -374,16 +385,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 // 구글 맵에 표시할 마커에 대한 옵션 설정
                 makerOptions = new MarkerOptions();
-
                 makerOptions
                         .position(mAddMarker)
                         .title(getCurrentAddress(mAddMarker))
-                        .snippet("위도:" + Double.parseDouble(String.valueOf(point.latitude))
-                                + " 경도:" + Double.parseDouble( String.valueOf(point.longitude)))
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_mapmo_marker));
-                        //.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-
-
+                        .snippet(null)
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
 
                 // 마커를 생성한다.
                 markerSelect = mMap.addMarker(makerOptions);
@@ -398,22 +404,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 addMemoBt.setVisibility(View.VISIBLE);
                 selectAddressTv.setText(getCurrentAddress(mAddMarker));
 
-                //그냥 그리기 맵꾹눌러서
-                /*dangerousArea.add(new LatLng(point.latitude, point.longitude));
-                settingGeoFire();
-                mMap.addCircle(new CircleOptions().center(new LatLng(point.latitude, point.longitude))
-                        .radius(325) //500m
-                        .strokeColor(Color.BLUE)
-                        .fillColor(0x220000FF)
-                        .strokeWidth(5.0f)
-                );
-
-                GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(point.latitude,point.longitude), 0.325f); //500m
-                geoQuery.addGeoQueryEventListener(MainActivity.this);*/
-
-
-
-                //Log.d( TAG, "onMapClick :");
             }
         });
 
@@ -469,7 +459,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 // 마커 추가
                 mMap.addMarker(mOptionsSearch);
                 // 해당 좌표로 화면 줌
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(point,15));
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point,15));
 
                 selectAddressTv.setVisibility(View.VISIBLE);
                 selectAddressTv.setText(address);
@@ -482,18 +472,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
-        for(LatLng latLng : dangerousArea)
-        {
-            mMap.addCircle(new CircleOptions().center(latLng)
-                    .radius(100) //500m
-                    .strokeColor(Color.rgb(238,135,114))
-                    .fillColor(0x22ed8672)
-                    .strokeWidth(5.0f)
-            );
 
-            GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(latLng.latitude,latLng.longitude), 0.100f); //500m
-            geoQuery.addGeoQueryEventListener(MainActivity.this);
-        }
     }
 
     LocationCallback locationCallback = new LocationCallback() {
@@ -509,18 +488,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 currentPosition = new LatLng(location.getLatitude(), location.getLongitude());
 
-                //myLocationTv.setText(location.getLatitude()+","+location.getLongitude());
-
-                /*String input = location.getLatitude()+","+location.getLongitude();
-
-                Intent serviceIntent = new Intent(MainActivity.this,ExampleService.class);
-                serviceIntent.putExtra("inputExtra",input);
-
-                startService(serviceIntent);*/
 
 
 
-                //
                 geoFire.setLocation("me", new GeoLocation(location.getLatitude(),
                         location.getLongitude()), new GeoFire.CompletionListener() {
                     @Override
@@ -534,11 +504,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                         //현재 위치에 마커 생성하고 이동
 
-                        setCurrentLocation(location, markerTitle, markerSnippet);
+                        setCurrentLocation(location, markerTitle, null);
 
                     }
                 });
-                //
+
 
                 mCurrentLocatiion = location;
 
@@ -672,19 +642,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         LatLng currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
 
-        MarkerOptions markerOptions = new MarkerOptions();
+        /*MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(currentLatLng);
         markerOptions.title(markerTitle);
         markerOptions.snippet(markerSnippet);
         markerOptions.draggable(true);
 
 
-        currentMarker = mMap.addMarker(markerOptions);
+        currentMarker = mMap.addMarker(markerOptions);*/
 
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(currentLatLng);
         if (start == false)
         {
-            mMap.moveCamera(cameraUpdate);
+            mMap.animateCamera(cameraUpdate);
         }
         start = true;
     }
@@ -707,6 +677,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         markerOptions.snippet(markerSnippet);
         markerOptions.draggable(true);
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+
         currentMarker = mMap.addMarker(markerOptions);
 
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION, 15);
@@ -833,7 +804,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        openDB();
         switch (requestCode) {
 
             case GPS_ENABLE_REQUEST_CODE:
@@ -851,10 +822,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
                 break;
 
-            case 100:
+            /*case 100:
                 //새로 추가된 메모의 마커 표시
                 if(resultCode==RESULT_OK){
-                    int new_id = data.getIntExtra("new_id",0);
+
+
+
+                    *//*int new_id = data.getIntExtra("new_id",0);
 
                     Cursor cursor = dbHandler.select_memo();
                     cursor.moveToLast();
@@ -882,10 +856,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     );
 
                     GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(newMemo.latitude,newMemo.longitude), 0.100f); //500m
-                    geoQuery.addGeoQueryEventListener(MainActivity.this);
+                    geoQuery.addGeoQueryEventListener(MainActivity.this);*//*
 
                 }
-                break;
+                break;*/
         }
     }
 
@@ -986,12 +960,20 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         stopService(serviceIntent);
     }
 
-    /*@Override
+    @Override
     public boolean onMarkerClick(Marker marker) {
+        if(marker.getSnippet() != null)
+        {
+            Intent intent = new Intent(MainActivity.this, viewMemoActivity.class);
+            int select_id = Integer.parseInt(marker.getSnippet());
+            intent.putExtra("select_id", select_id);
+            startActivityForResult(intent, 200);
 
-        //Toast.makeText(MainActivity.this,marker.getTitle()+"\n"+marker.getPosition(),Toast.LENGTH_LONG).show();
+
+        }
         return true;
-    }*/
+
+    }
 
 
 }
