@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -19,7 +20,6 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -64,9 +64,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -376,12 +374,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 // 구글 맵에 표시할 마커에 대한 옵션 설정
                 makerOptions = new MarkerOptions();
+
                 makerOptions
                         .position(mAddMarker)
                         .title(getCurrentAddress(mAddMarker))
                         .snippet("위도:" + Double.parseDouble(String.valueOf(point.latitude))
                                 + " 경도:" + Double.parseDouble( String.valueOf(point.longitude)))
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_mapmo_marker));
+                        //.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+
+
 
                 // 마커를 생성한다.
                 markerSelect = mMap.addMarker(makerOptions);

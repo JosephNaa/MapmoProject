@@ -23,6 +23,7 @@
             android:layout_weight="9"
             android:ems="10"
             android:hint="search"
+            android:layout_marginLeft="10dp"
             android:inputType="textPersonName"
             android:textColor="@android:color/white"
             android:textColorHint="@android:color/white"/>
