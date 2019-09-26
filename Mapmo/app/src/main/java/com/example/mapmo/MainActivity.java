@@ -262,7 +262,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             String lat = cursor.getString(5);
             String lon = cursor.getString(6);
             LatLng newMemo = new LatLng(Double.parseDouble(lat),Double.parseDouble(lon));
-            markerDB = mMap.addMarker(new MarkerOptions().position(newMemo).title(title).snippet(id+"").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).alpha(0.5f));
+            markerDB = mMap.addMarker(new MarkerOptions().position(newMemo).title(title).snippet(id+"").icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_mapmo_marker)).alpha(0.8f));
             markerDB.showInfoWindow();
 
             dangerousArea.add(newMemo);
@@ -389,7 +389,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         .position(mAddMarker)
                         .title(getCurrentAddress(mAddMarker))
                         .snippet(null)
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_mapmo_marker));
+                        //.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
 
                 // 마커를 생성한다.
                 markerSelect = mMap.addMarker(makerOptions);
