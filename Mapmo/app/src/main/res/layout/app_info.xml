@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="앱 정보"
+        android:fontFamily="@font/goyang"
+        android:textStyle="bold"
+        android:background="#1E2142"
+        android:textColor="@android:color/white"
+        android:textSize="25dp"
+        android:paddingTop="5dp"
+        android:paddingLeft="15dp"
+        android:paddingBottom="5dp">
+    </TextView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:fontFamily="@font/nanumsquare_acb"
+                android:text="지도에 메모를 더하다"
+                android:textSize="25sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="안녕하세요 MAPMO 개발진입니다! ( ｯ◕ ܫ◕)ｯ'
+                \n\n지금부터 저희 MAPMO를 소개 시켜드릴게요
+                \n\n따라오실 준비 됬나요? o(*▽*)/
+                \n\n저희 MAPMO는 지도에 메모를 더하여 메모 지역 주변에 들어오게되면 \n할 일을 기억나게 알림을 해주는 어플입니다. ( ｯ◕ ܫ◕)ｯ
+                \n\n이런 분들께 MAPMO를 추천드려요
+                \n\n하나! 매번 해야할 일을 깜빡하시고 지나치시는 분들!\n          Σ(￣□￣;)\n\n둘! 여기저기 출장이 잦은 회사원분들!  φ(._.)
+                \n\n셋! 평소에 메모를 자주 하시는 분들! ╰(*´︶`*)╯
+                \n\n사용법!
+                \n\n먼저 사용하시기전에 꼭 위치서비스를 켜주세요!
+                \n\n1. 메모를 추가하고 싶은 장소를 꾹! 누른다\n    (가볍게  터치 하시면 안되요  〣(ºΔº)〣)
+                \n\n2. 메모 추가 버튼을 누른다
+                \n\n3. 제목과 날짜 내용을 작성하고 확인 버튼을 누른다
+                \n\n4. 화면에 메모가 추가되고 영역에 들어오게 되면 알림이 간다!
+                \n\n5. 메뉴에서 전체 메모리스트를 확인 할 수 있어요
+                \n\n그럼 이제 환경 설정하는법!
+                \n\n백그라운드 설정
+                \n\n어플리케이션이 꺼져있는 상태에서도 알림을 받고 싶다면 백그라운드 설정을 꼭 On 해주세요!
+                \n\n메모 알림 반경 설정
+                \n\n알림을 받을 수 있는 범위를 직접 선택하실 수 있어요!
+                \n\n이제 MAPMO로 해야 할 일을 까먹지말고 해볼까요? ⁽⁽◝꒰ ˙ ꒳ ˙ ꒱◜⁾⁾    \n(저는 너무 까먹어서 배불러요 ㅎㅎ)"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:text="개발자 : 금오공과대학교 컴퓨터공학과 \n권혁찬, 김태성, 나요셉, 이상민, 정혜원"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

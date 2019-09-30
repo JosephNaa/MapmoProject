@@ -2,34 +2,27 @@ package com.example.mapmo;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
-import com.google.android.material.behavior.SwipeDismissBehavior;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -45,7 +38,6 @@ public class addMemoActivity extends AppCompatActivity implements View.OnClickLi
     public TextView addressTv;
 
     public Dialog calendarDl;
-    public static String selectDate;
 
     public EditText titleEdit;
 
@@ -56,6 +48,8 @@ public class addMemoActivity extends AppCompatActivity implements View.OnClickLi
     private ListAdapter adapter;
     private ListView listView;
     private ArrayList<ListItem> items;
+
+    private ImageButton backButton;
 
     DBHandler dbHandler = DBHandler.open(this);
 
@@ -71,20 +65,15 @@ public class addMemoActivity extends AppCompatActivity implements View.OnClickLi
         listView.setAdapter(adapter);
         listView.setOnItemLongClickListener( new ListViewItemLongClickListener() );
 
-        //플로팅버튼으로 했을 시
-//        FloatingActionButton addButton = findViewById(R.id.add) ;
-//        addButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String content = "";
-//                ListItem item = new ListItem();
-//                item.setContent(content);
-//                //Log.d("item1", String.valueOf(items.size()));
-//                items.add(item);
-//                //Log.d("item", String.valueOf(items.size()));
-//                adapter.notifyDataSetChanged();
-//            }
-//        }) ;
+        //뒤로가기 버튼
+        backButton = (ImageButton) findViewById(R.id.backBtn) ;
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
 
         //추가하기 버튼
         Button addButton = (Button)findViewById(R.id.add) ;
@@ -94,9 +83,9 @@ public class addMemoActivity extends AppCompatActivity implements View.OnClickLi
                 String content = "";
                 ListItem item = new ListItem();
                 item.setContent(content);
-                //Log.d("item1", String.valueOf(items.size()));
+
                 items.add(item);
-                //Log.d("item", String.valueOf(items.size()));
+
                 adapter.notifyDataSetChanged();
             }
         }) ;
@@ -105,11 +94,7 @@ public class addMemoActivity extends AppCompatActivity implements View.OnClickLi
         startDayBt = (Button) findViewById(R.id.startDayBt);
         finishDayBt = (Button) findViewById(R.id.finishDayBt);
         addressTv = (TextView) findViewById(R.id.addressTv);
-
-
-        //정혜원
         titleEdit = (EditText)findViewById(R.id.titlePt);
-
 
 
         long now = System.currentTimeMillis();
@@ -129,77 +114,36 @@ public class addMemoActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
-    //상단바 저장 버튼 추가 (res/menu/menu 연결)
-/*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
 
-        return true;
-    }
+    Button startSelectedBt;
+    String startSelectedSt;
+    Date startTo;
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==R.id.saveBtn){ //새로 생성시
+    Button finishSelectedBt;
+    String finishSelectedSt;
+    Date finishTo;
 
-            String title = titleEdit.getText().toString();
-
-            if(TextUtils.isEmpty(title))
-                title = "제목 없음";
-
-            long cnt=0;
-            long cnt_=0;
-
-            if(items.size()==0) {
-                Toast.makeText(this,"입력한 내용이 없어 저장하지 않았습니다.",Toast.LENGTH_SHORT).show();
-                dbHandler.close();
-                finish();
-
-            }else {
-                cnt = dbHandler.insert_memo(title, memo_start, memo_finish, addMarkerAddress, MainActivity.addMarkerLatitude, MainActivity.addMarkerLongitude);
-
-                if (cnt == -1)
-                    Toast.makeText(this, "저장 오류", Toast.LENGTH_SHORT).show();
-                else {
-                    Cursor cursor = dbHandler.select_memo();
-                    cursor.moveToLast();
-
-
-                    //현재 생성된 메모의 id값 얻어오기
-                    int new_id = cursor.getInt(0);
-
-                    for(int i=0; i<items.size(); i++){
-                        int check = items.get(i).isCheck() ? 1 : 0;
-                        cnt_ = dbHandler.insert_content(new_id, items.get(i).getContent(), check);
-
-                        if(cnt_ == -1)
-                            Toast.makeText(this, "저장 오류", Toast.LENGTH_SHORT).show();
-                    }
-
-                    if(cnt_!=-1)
-                        Toast.makeText(this, "저장 성공", Toast.LENGTH_SHORT).show();
-
-                    dbHandler.close();
-
-                    Intent resultIntent = new Intent();
-                    resultIntent.putExtra("new_id", new_id); //
-                    setResult(RESULT_OK,resultIntent);
-                    finish();
-                }
-
-            }
-        }
-        return super.onOptionsItemSelected(item);
-    }
-*/
     @Override
     public void onClick(View v) {
         if(v.getId()== R.id.startDayBt){
+            startSelectedBt = (Button) findViewById(R.id.startDayBt);
+            startSelectedSt = startSelectedBt.getText().toString();
+
             calendarDl = new Dialog(v.getContext());
             calendarDl.requestWindowFeature(Window.FEATURE_NO_TITLE);
             calendarDl.setContentView(R.layout.custom_dialog_calendar);
             CalendarView calendarView = (CalendarView) calendarDl.findViewById(R.id.calVw);
             Button finishBt = (Button) calendarDl.findViewById(R.id.finishBt);
+
+            SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+            try {
+                startTo = transFormat.parse(startSelectedSt);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            calendarView.setDate(startTo.getTime());
+
 
             calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
                 @Override
@@ -223,11 +167,23 @@ public class addMemoActivity extends AppCompatActivity implements View.OnClickLi
             calendarDl.show();
 
         }else if(v.getId()==R.id.finishDayBt){
+            finishSelectedBt = (Button) findViewById(R.id.finishDayBt);
+            finishSelectedSt = finishSelectedBt.getText().toString();
+
             calendarDl = new Dialog(v.getContext());
             calendarDl.requestWindowFeature(Window.FEATURE_NO_TITLE);
             calendarDl.setContentView(R.layout.custom_dialog_calendar);
             CalendarView calendarView = (CalendarView) calendarDl.findViewById(R.id.calVw);
             Button finishBt = (Button) calendarDl.findViewById(R.id.finishBt);
+
+            SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+            try {
+                finishTo = transFormat.parse(finishSelectedSt);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            calendarView.setDate(finishTo.getTime());
 
             calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
                 @Override
@@ -259,16 +215,27 @@ public class addMemoActivity extends AppCompatActivity implements View.OnClickLi
             long cnt=0;
             long cnt_=0;
 
+            int startInt = Integer.parseInt(memo_start.replace("-",""));
+            int finishInt = Integer.parseInt(memo_finish.replace("-",""));
+
+            Log.d("start",memo_start);
+
             if(items.size()==0) {
                 Toast.makeText(this,"입력한 내용이 없어 저장하지 않았습니다.",Toast.LENGTH_SHORT).show();
                 dbHandler.close();
                 finish();
 
-            }else {
-                cnt = dbHandler.insert_memo(title, memo_start, memo_finish, addMarkerAddress, MainActivity.addMarkerLatitude, MainActivity.addMarkerLongitude);
+            }
+            else if (startInt > finishInt)
+            {
+                Toast.makeText(this,"종료날짜를 확인해주세요.",Toast.LENGTH_SHORT).show();
+            }
+            else {
+                cnt = dbHandler.insert_memo(title, memo_start, memo_finish, addMarkerAddress, MainActivity.addMarkerLatitude, MainActivity.addMarkerLongitude, "false",0);
 
-                if (cnt == -1)
-                    Toast.makeText(this, "저장 오류", Toast.LENGTH_SHORT).show();
+                if (cnt == -1) {
+                    //Toast.makeText(this, "저장 오류", Toast.LENGTH_SHORT).show();
+                }
                 else {
                     Cursor cursor = dbHandler.select_memo();
                     cursor.moveToLast();
@@ -277,21 +244,31 @@ public class addMemoActivity extends AppCompatActivity implements View.OnClickLi
                     //현재 생성된 메모의 id값 얻어오기
                     int new_id = cursor.getInt(0);
 
+                    int all_check = 0;
+
                     for (int i = 0; i < items.size(); i++) {
                         int check = items.get(i).isCheck() ? 1 : 0;
                         cnt_ = dbHandler.insert_content(new_id, items.get(i).getContent(), check);
 
-                        if (cnt_ == -1)
-                            Toast.makeText(this, "저장 오류", Toast.LENGTH_SHORT).show();
+                        if (cnt_ == -1) {
+                            //Toast.makeText(this, "저장 오류", Toast.LENGTH_SHORT).show();
+                        }
+                        if(check==1)
+                            all_check++;
                     }
 
-                    if (cnt_ != -1)
-                        Toast.makeText(this, "저장 성공", Toast.LENGTH_SHORT).show();
+                    if (cnt_ != -1) {
+                        //Toast.makeText(this, "저장 완료", Toast.LENGTH_SHORT).show();
+                    }
+                    //모두 체크시 알림 울리지 않게
+                    if(all_check==items.size())
+                        dbHandler.update_memo(new_id, title, memo_start, memo_finish, "true",1);
+
 
                     dbHandler.close();
 
                     Intent resultIntent = new Intent();
-                    resultIntent.putExtra("new_id", new_id); //
+                    resultIntent.putExtra("new_id", new_id);
                     setResult(RESULT_OK, resultIntent);
                     finish();
                 }
@@ -315,7 +292,7 @@ public class addMemoActivity extends AppCompatActivity implements View.OnClickLi
                         Log.d("position_check", String.valueOf(position));
                         if(position > -1 && position < count){
                             //Log.d("check", String.valueOf(position));
-                            Toast.makeText(addMemoActivity.this, "삭제..", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(addMemoActivity.this, "삭제..", Toast.LENGTH_SHORT).show();
                             items.remove(position);
                             //Log.d("item", String.valueOf(items.size()));
                             listView.clearChoices();
@@ -331,7 +308,7 @@ public class addMemoActivity extends AppCompatActivity implements View.OnClickLi
                 @Override
                 public void onClick( DialogInterface dialog, int which ) { dialog.dismiss(); }
             });
-            alertDlg.setMessage( "삭제?" );
+            alertDlg.setMessage( "삭제하시겠습니까?" );
             alertDlg.show();
             return false;
         }

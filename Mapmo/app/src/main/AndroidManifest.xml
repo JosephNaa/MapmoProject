@@ -10,19 +10,29 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".viewMemoActivity"></activity>
+        <activity android:name=".viewMemoActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"></activity>
 
-        <activity android:name=".addMemoActivity" />
-
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_maps"
-            android:windowSoftInputMode="adjustResize|adjustPan">
+        <activity android:name=".addMemoActivity"/>
+        <activity android:name=".AppInfo"/>
+        <activity android:name=".memoListActivity"/>
+        <activity android:name=".Setting"/>
+        <activity android:name=".SplashActivity"
+            android:theme="@style/Splash"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_maps"
+            android:windowSoftInputMode="adjustResize|adjustPan">
+
         </activity>
 
         <meta-data

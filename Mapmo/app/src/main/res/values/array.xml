@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="order">
+        <item>만든 날짜 순</item>
+        <item>시작 날짜 순</item>
+        <item>종료 날짜 순</item>
+    </array>
+</resources>

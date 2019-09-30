@@ -21,7 +21,9 @@ public class DBHelper extends SQLiteOpenHelper {
                         "finish_date TEXT NOT NULL," +
                         "location TEXT NOT NULL," +
                         "latitude TEXT NOT NULL," +
-                        "lontitude TEXT NOT NULL );";
+                        "lontitude TEXT NOT NULL," +
+                        "pushCheck TEXT NOT NULL," +
+                        "allCheck INTEGER );";
 
         String content_able =
                 "CREATE TABLE content(" +
@@ -32,11 +34,20 @@ public class DBHelper extends SQLiteOpenHelper {
                         "FOREIGN KEY(id)" +
                         "REFERENCES memo_table(id) ON DELETE CASCADE);";
 
+        String radius_table =
+                "CREATE TABLE radius(" +
+                        "id INTEGER PRIMARY KEY AUTOINCREMENT,"+
+                        "radius INTEGER NOT NULL);";
+
+
+
+
         //외래키 활성화
         db.execSQL("PRAGMA foreign_key = 1");
 
         db.execSQL(memo_table);
         db.execSQL(content_able);
+        db.execSQL(radius_table);
     }
 
 
@@ -45,6 +56,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS memo");
         db.execSQL("DROP TABLE IF EXISTS content");
+        db.execSQL("DROP TABLE IF EXISTS radius");
         onCreate(db);
     }
 }

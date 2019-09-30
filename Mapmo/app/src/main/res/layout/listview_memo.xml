@@ -4,7 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F8E69C"
+    android:paddingLeft="15dp"
     android:orientation="horizontal">
+
 
     <EditText
         android:id="@+id/editText1"
@@ -12,6 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="5"
         android:backgroundTint="#B2A469"
+        android:textSize="20sp"
+        android:fontFamily="@font/goyang"
         android:ems="10"
         android:textColor="@android:color/black">
 
@@ -29,5 +33,3 @@
 
 
 </LinearLayout>
-
-

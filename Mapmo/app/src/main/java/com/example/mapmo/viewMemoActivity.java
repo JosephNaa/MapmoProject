@@ -5,38 +5,27 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
-import com.google.android.material.behavior.SwipeDismissBehavior;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
-import static com.example.mapmo.MainActivity.addMarkerAddress;
 
 public class viewMemoActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -55,9 +44,13 @@ public class viewMemoActivity extends AppCompatActivity implements View.OnClickL
     private ListView listView;
     private ArrayList<ListItem> items;
 
+    private ImageButton backButton;
+
     int select_id=0;
 
     DBHandler dbHandler = DBHandler.open(this);
+
+    public String phchk;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,16 +71,6 @@ public class viewMemoActivity extends AppCompatActivity implements View.OnClickL
         //정혜원
         titleEdit = (EditText)findViewById(R.id.titlePt);
 
-       /* long now = System.currentTimeMillis();
-        Date date = new Date(now);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        memo_start = sdf.format(date);
-        memo_finish = sdf.format(date);
-
-        startDayBt.setText(memo_start);
-        finishDayBt.setText(memo_finish);
-
-        addressTv.setText(addMarkerAddress);*/
 
         //메모 데이터 넣기
         String title = null;
@@ -110,6 +93,8 @@ public class viewMemoActivity extends AppCompatActivity implements View.OnClickL
                 memo_start = cursor_memo.getString(2);
                 memo_finish = cursor_memo.getString(3);
                 address = cursor_memo.getString(4);
+                phchk = cursor_memo.getString(7);
+
             }
             cursor_memo.moveToNext();
         }
@@ -143,7 +128,14 @@ public class viewMemoActivity extends AppCompatActivity implements View.OnClickL
             cursor_content.moveToNext();
         }
 
-
+        //뒤로가기 버튼
+        backButton = (ImageButton) findViewById(R.id.backBtn) ;
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         //추가하기 버튼
         Button addButton = (Button)findViewById(R.id.add) ;
@@ -167,108 +159,36 @@ public class viewMemoActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
-    //상단바 저장 버튼 추가 (res/menu/menu 연결)
-/*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
 
-        return true;
-    }
+    Button startSelectedBt;
+    String startSelectedSt;
+    Date startTo;
 
+    Button finishSelectedBt;
+    String finishSelectedSt;
+    Date finishTo;
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        if (item.getItemId() == R.id.saveBtn) { //새로 생성시
-
-            String title = titleEdit.getText().toString();
-
-            if (TextUtils.isEmpty(title))
-                title = "제목 없음";
-
-            long cnt = 0;
-            long cnt_ = 0;
-
-            if (items.size() == 0) {
-                Toast.makeText(this, "입력한 내용이 없어 저장하지 않았습니다.", Toast.LENGTH_SHORT).show();
-                dbHandler.close();
-                finish();
-
-            } else {
-                dbHandler.update_memo(select_id, title, memo_start, memo_finish);
-
-                //체크 리스트 비우기
-                Cursor cursor_content = dbHandler.select_content();
-                cursor_content.moveToFirst();
-
-                int count_ = cursor_content.getCount();
-
-                for (int i = 0; i < count_; i++) {
-                    int id = cursor_content.getInt(1);
-
-                    if (id == select_id) {
-                        dbHandler.delete_content(cursor_content.getInt(0));
-                    }
-                    cursor_content.moveToNext();
-                }
-
-                //수정된 체크 리스트 저장
-
-                for (int i = 0; i < items.size(); i++) {
-                    int check = items.get(i).isCheck() ? 1 : 0;
-
-                    Log.d("item_content", items.get(i).getContent());
-
-                    cnt_ = dbHandler.insert_content(select_id, items.get(i).getContent(), check);
-
-                    if (cnt_ == -1)
-                        Toast.makeText(this, "저장 오류", Toast.LENGTH_SHORT).show();
-                    else
-                        Toast.makeText(this, "수정 성공", Toast.LENGTH_SHORT).show();
-                }
-
-                dbHandler.close();
-
-                Intent resultIntent = new Intent();
-                //resultIntent.putExtra("new_id", new_id);
-                setResult(RESULT_OK, resultIntent);
-                finish();
-            }
-
-        }else if(item.getItemId()==R.id.editBtn){
-            dbHandler.delete_memo(select_id);
-            //체크 리스트 비우기
-            Cursor cursor_content = dbHandler.select_content();
-            cursor_content.moveToFirst();
-
-            int count_ = cursor_content.getCount();
-
-            for (int i = 0; i < count_; i++) {
-                int id = cursor_content.getInt(1);
-
-                if (id == select_id) {
-                    dbHandler.delete_content(cursor_content.getInt(0));
-                }
-                cursor_content.moveToNext();
-            }
-            dbHandler.close();
-
-            Intent resultIntent = new Intent();
-            setResult(RESULT_OK,resultIntent);
-            finish();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-*/
     @Override
     public void onClick(View v) {
         if(v.getId()== R.id.startDayBt){
+            startSelectedBt = (Button) findViewById(R.id.startDayBt);
+            startSelectedSt = startSelectedBt.getText().toString();
+
             calendarDl = new Dialog(v.getContext());
             calendarDl.requestWindowFeature(Window.FEATURE_NO_TITLE);
             calendarDl.setContentView(R.layout.custom_dialog_calendar);
             CalendarView calendarView = (CalendarView) calendarDl.findViewById(R.id.calVw);
             Button finishBt = (Button) calendarDl.findViewById(R.id.finishBt);
+
+            SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+            try {
+                startTo = transFormat.parse(startSelectedSt);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            calendarView.setDate(startTo.getTime());
+
 
             calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
                 @Override
@@ -292,11 +212,23 @@ public class viewMemoActivity extends AppCompatActivity implements View.OnClickL
             calendarDl.show();
 
         }else if(v.getId()==R.id.finishDayBt){
+            finishSelectedBt = (Button) findViewById(R.id.finishDayBt);
+            finishSelectedSt = finishSelectedBt.getText().toString();
+
             calendarDl = new Dialog(v.getContext());
             calendarDl.requestWindowFeature(Window.FEATURE_NO_TITLE);
             calendarDl.setContentView(R.layout.custom_dialog_calendar);
             CalendarView calendarView = (CalendarView) calendarDl.findViewById(R.id.calVw);
             Button finishBt = (Button) calendarDl.findViewById(R.id.finishBt);
+
+            SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+            try {
+                finishTo = transFormat.parse(finishSelectedSt);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            calendarView.setDate(finishTo.getTime());
 
             calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
                 @Override
@@ -318,6 +250,7 @@ public class viewMemoActivity extends AppCompatActivity implements View.OnClickL
                 }
             });
             calendarDl.show();
+
         }else if(v.getId()==R.id.confirm_btn){
             String title = titleEdit.getText().toString();
 
@@ -327,14 +260,20 @@ public class viewMemoActivity extends AppCompatActivity implements View.OnClickL
             long cnt = 0;
             long cnt_ = 0;
 
+            int startInt = Integer.parseInt(memo_start.replace("-",""));
+            int finishInt = Integer.parseInt(memo_finish.replace("-",""));
+
             if (items.size() == 0) {
                 Toast.makeText(this, "입력한 내용이 없어 저장하지 않았습니다.", Toast.LENGTH_SHORT).show();
-                dbHandler.close();
-                finish();
 
-            } else {
-                dbHandler.update_memo(select_id, title, memo_start, memo_finish);
+                delete_memo();
 
+            }
+            else if (startInt > finishInt)
+            {
+                Toast.makeText(this,"종료날짜를 확인해주세요.",Toast.LENGTH_SHORT).show();
+            }
+            else {
                 //체크 리스트 비우기
                 Cursor cursor_content = dbHandler.select_content();
                 cursor_content.moveToFirst();
@@ -350,8 +289,6 @@ public class viewMemoActivity extends AppCompatActivity implements View.OnClickL
                     cursor_content.moveToNext();
                 }
 
-                //수정된 체크 리스트 저장
-
                 for (int i = 0; i < items.size(); i++) {
                     int check = items.get(i).isCheck() ? 1 : 0;
 
@@ -359,40 +296,76 @@ public class viewMemoActivity extends AppCompatActivity implements View.OnClickL
 
                     cnt_ = dbHandler.insert_content(select_id, items.get(i).getContent(), check);
 
-                    if (cnt_ == -1)
-                        Toast.makeText(this, "저장 오류", Toast.LENGTH_SHORT).show();
-                    else
-                        Toast.makeText(this, "수정 성공", Toast.LENGTH_SHORT).show();
+                    if (cnt_ == -1) {
+                        // Toast.makeText(this, "저장 오류", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
+
+
+                //모두 체크되면 알림 안울리게
+                Cursor cursor = dbHandler.select_content();
+                cursor.moveToFirst();
+
+                int count = cursor.getCount();
+                int all_check = 0;
+                int select_count=0;
+
+                for (int i = 0; i < count; i++) {
+                    int id = cursor.getInt(1);
+
+                    if (id == select_id) {
+                        select_count++;
+                        Log.d("select",select_count+"");
+                        if(cursor.getInt(3)==1) {
+                            all_check++;
+                            Log.d("all",all_check+"");
+                        }
+                    }
+                    cursor.moveToNext();
+                }
+                Log.i("allccc",all_check+"");
+                Log.i("cacccc",select_count+"");
+
+                if(all_check==select_count){
+
+                    dbHandler.update_memo(select_id, title, memo_start, memo_finish, "true",1);
+                }else
+                {
+
+                    dbHandler.update_memo(select_id, title, memo_start, memo_finish, phchk,0);
+                    ////
+                }
+
 
                 dbHandler.close();
 
                 Intent resultIntent = new Intent();
-                //resultIntent.putExtra("new_id", new_id);
+
                 setResult(RESULT_OK, resultIntent);
                 finish();
             }
         }else if(v.getId()==R.id.delete_btn){
-            dbHandler.delete_memo(select_id);
-            //체크 리스트 비우기
-            Cursor cursor_content = dbHandler.select_content();
-            cursor_content.moveToFirst();
+            //삭제 다이얼로그 띄우기
+            AlertDialog.Builder alertDlg = new AlertDialog.Builder(this);
 
-            int count_ = cursor_content.getCount();
+            //OK버튼
+            alertDlg.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
 
-            for (int i = 0; i < count_; i++) {
-                int id = cursor_content.getInt(1);
+                    delete_memo();
 
-                if (id == select_id) {
-                    dbHandler.delete_content(cursor_content.getInt(0));
+                    dialog.dismiss();
                 }
-                cursor_content.moveToNext();
-            }
-            dbHandler.close();
-
-            Intent resultIntent = new Intent();
-            setResult(RESULT_OK,resultIntent);
-            finish();
+            });
+            //NO버튼
+            alertDlg.setNegativeButton( "NO", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick( DialogInterface dialog, int which ) { dialog.dismiss(); }
+            });
+            alertDlg.setMessage( "삭제하시겠습니까?" );
+            alertDlg.show();
         }
     }
 
@@ -412,7 +385,7 @@ public class viewMemoActivity extends AppCompatActivity implements View.OnClickL
                         Log.d("position_check", String.valueOf(position));
                         if(position > -1 && position < count){
                             //Log.d("check", String.valueOf(position));
-                            Toast.makeText(viewMemoActivity.this, "삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(viewMemoActivity.this, "삭제되었습니다.", Toast.LENGTH_SHORT).show();
                             items.remove(position);
                             //Log.d("item", String.valueOf(items.size()));
                             listView.clearChoices();
@@ -428,9 +401,32 @@ public class viewMemoActivity extends AppCompatActivity implements View.OnClickL
                 @Override
                 public void onClick( DialogInterface dialog, int which ) { dialog.dismiss(); }
             });
-            alertDlg.setMessage( "삭제?" );
+            alertDlg.setMessage( "삭제하시겠습니까?" );
             alertDlg.show();
             return false;
         }
+    }
+
+    public void delete_memo(){
+        dbHandler.delete_memo(select_id);
+        //체크 리스트 비우기
+        Cursor cursor_content = dbHandler.select_content();
+        cursor_content.moveToFirst();
+
+        int count_ = cursor_content.getCount();
+
+        for (int i = 0; i < count_; i++) {
+            int id = cursor_content.getInt(1);
+
+            if (id == select_id) {
+                dbHandler.delete_content(cursor_content.getInt(0));
+            }
+            cursor_content.moveToNext();
+        }
+        dbHandler.close();
+
+        Intent resultIntent = new Intent();
+        setResult(RESULT_OK,resultIntent);
+        finish();
     }
 }

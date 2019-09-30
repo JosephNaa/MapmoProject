@@ -30,7 +30,7 @@ public class ExampleService extends Service {
                 0, notificationIntent, 0);
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("Example Service")
+                .setContentTitle("Background Service")
                 .setContentText(input)
                 .setSmallIcon(R.drawable.ic_android)
                 .setContentIntent(pendingIntent)
@@ -49,6 +49,8 @@ public class ExampleService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        //serviceStart = false;
+
     }
 
 

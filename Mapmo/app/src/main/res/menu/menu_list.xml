@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--<item android:title="선택 삭제" android:id="@+id/delete"/>-->
+
+    <item android:title="정렬" android:id="@+id/order"/>
+
+</menu>

@@ -125,4 +125,8 @@ public class ListAdapter extends ArrayAdapter {
         CheckBox checkBox1;
         int ref;
     }
+
+    public void addItem(){
+
+    }
 }

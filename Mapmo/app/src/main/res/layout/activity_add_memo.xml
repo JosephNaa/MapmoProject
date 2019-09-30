@@ -21,19 +21,31 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="#EE8772"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            android:background="#1E2142"
                             android:orientation="horizontal">
+                                <ImageButton
+                                    android:id="@+id/backBtn"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingTop="5dp"
+                                    android:layout_marginTop="5dp"
+                                    android:src="@drawable/ic_chevron_left_white_30dp"
+                                    android:background="#1E2142" />
+
                                 <TextView
                                     android:layout_marginTop="5dp"
-                                    android:layout_marginBottom="5dp"
+                                    android:layout_marginBottom="20dp"
                                     android:layout_weight="1"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="MapMO"
+                                    android:text="메모 작성"
+                                    android:fontFamily="@font/goyang"
+                                    android:textStyle="bold"
                                     android:layout_marginLeft="10dp"
                                     android:textColor="@android:color/white"
-                                    android:textSize="30dp"/>
-
+                                    android:textSize="23sp"/>
 
                                 <Button
                                     android:id="@+id/confirm_btn"
@@ -42,6 +54,7 @@
                                     android:textSize="18dp"
                                     android:background="#00ff0000"
                                     android:textColor="@android:color/white"
+                                    android:fontFamily="@font/goyang"
                                     android:textStyle="bold"
                                     android:text="확인"/>
                         </LinearLayout>
@@ -51,42 +64,48 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:hint="제목"
+                            android:textSize="25sp"
+                            android:hint=" 제목"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
+                            android:layout_marginTop="10dp"
                             android:inputType="textPersonName"
+                            android:backgroundTint="@android:color/black"
+                            android:fontFamily="@font/goyang"
                             android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:layout_marginTop="10dp">
+                            android:layout_marginTop="13dp">
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="시작날짜"
-                                    android:textColor="@android:color/black"
+                                    android:fontFamily="@font/goyang"
                                     android:textStyle="bold"
+                                    android:textColor="@android:color/black"
                                     android:layout_weight="1"
                                     android:gravity="center"
-                                    android:textSize="20dp"/>
+                                    android:textSize="17sp"/>
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="종료날짜"
-                                    android:textColor="@android:color/black"
+                                    android:fontFamily="@font/goyang"
                                     android:textStyle="bold"
+                                    android:textColor="@android:color/black"
                                     android:layout_weight="1"
                                     android:gravity="center"
-                                    android:textSize="20dp"/>
+                                    android:textSize="17sp"/>
 
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:layout_marginTop="20dp"
+                            android:layout_marginTop="2dp"
                             android:layout_marginBottom="10dp">
                                 <Button
                                     android:id="@+id/startDayBt"
@@ -94,7 +113,8 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:textSize="20dp"
+                                    android:textSize="18sp"
+                                    android:fontFamily="@font/goyang"
                                     android:textStyle="bold"
                                     android:background="#F8E69C"
                                     android:text="Button" />
@@ -105,7 +125,8 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:textSize="20dp"
+                                    android:textSize="18sp"
+                                    android:fontFamily="@font/goyang"
                                     android:textStyle="bold"
                                     android:background="#F8E69C"
                                     android:text="Button" />
@@ -115,7 +136,11 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
+                            android:layout_marginBottom="2dp"
                             android:text="주소"
+                            android:textSize="18sp"
+                            android:fontFamily="@font/goyang"
+                            android:textStyle="bold"
                             android:textColor="@android:color/black"
                             android:layout_marginLeft="10dp"
                             android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
@@ -125,17 +150,19 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="TextView"
-                            android:textColor="@android:color/black"
+                            android:textSize="16sp"
+                            android:fontFamily="@font/goyang"
+                            android:textColor="#444444"
                             android:layout_marginLeft="10dp"/>
 
                         <ListView
                             android:id="@+id/listview"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginTop="20dp"
                             android:background="#F8E69C"
                             android:divider="@color/common_google_signin_btn_text_dark_disabled"
-                            android:scrollbars="none" />
+                            android:scrollbars="none"/>
 
 
                 </LinearLayout>
@@ -148,19 +175,6 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true">
 
-<!-- 플로팅버튼으로 했을 시 -->
-<!--                <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--                    android:id="@+id/add"-->
-<!--                    android:layout_width="50dp"-->
-<!--                    android:layout_height="50dp"-->
-<!--                    android:layout_gravity="right"-->
-<!--                    android:layout_marginTop="20sp"-->
-<!--                    android:layout_marginRight="20sp"-->
-<!--                    android:background="@drawable/plus"-->
-<!--                    tools:layout_editor_absoluteX="0dp"-->
-<!--                    tools:layout_editor_absoluteY="0dp"-->
-<!--                    />-->
-
                 <Button
                     android:id="@+id/add"
                     android:layout_width="50dp"
@@ -168,7 +182,7 @@
                     android:layout_gravity="right"
                     android:layout_marginTop="20dp"
                     android:layout_marginRight="20dp"
-                    android:background="@drawable/plus_pink"
+                    android:background="@drawable/plus_navy"
                     tools:layout_editor_absoluteX="0dp"
                     tools:layout_editor_absoluteY="0dp"
                     />

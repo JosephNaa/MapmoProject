@@ -12,49 +12,38 @@
         android:id="@+id/searchLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#1E2142"
         android:orientation="horizontal"
-        android:weightSum="10"
-        android:background="#EE8772">
+        android:weightSum="10">
 
         <EditText
             android:id="@+id/searchPt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
             android:layout_weight="9"
             android:ems="10"
-            android:hint="search"
-            android:layout_marginLeft="10dp"
+            android:hint=" 주소 검색"
+            android:fontFamily="@font/goyang"
+            android:textStyle="bold"
+            android:backgroundTint="@android:color/white"
             android:inputType="textPersonName"
+            android:textSize="18sp"
             android:textColor="@android:color/white"
-            android:textColorHint="@android:color/white"/>
+            android:textColorHint="@android:color/white" />
+
 
         <ImageButton
-            android:id="@+id/searchBt"
-            android:layout_width="55dp"
-            android:layout_height="35dp"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:background="@drawable/search_btn"
-            android:layout_marginLeft="10dp"/>
-
-        <TextView
-            android:id="@+id/serviceText"
-            android:layout_weight="9"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:text="Service OFF"
-            android:textStyle="bold"
-            android:textColor="@android:color/white"
-            android:textSize="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp"/>
-
-        <Switch
-            android:id="@+id/serviceSwitch"
+            android:id="@+id/menubtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            />
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="9dp"
+            app:srcCompat="@drawable/ic_more_vert_black_24dp"
+            android:background="#1E2142"
+            android:onClick="mOnClick"/>
+
 
     </LinearLayout>
 
@@ -76,13 +65,14 @@
         android:layout_height="47dp"
         android:layout_above="@+id/addMemoBt"
         android:layout_marginBottom="0dp"
-        android:background="#EE8772"
+        android:background="#1E2142"
         android:gravity="center"
         android:text="Address"
+        android:fontFamily="@font/goyang"
+        android:textStyle="bold"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textColor="@android:color/white"
-        android:textSize="18sp"
-        android:textStyle="bold"/>
+        android:textSize="18sp"/>
 
     <Button
         android:id="@+id/addMemoBt"
@@ -90,54 +80,13 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/map"
         android:layout_marginBottom="0dp"
-        android:background="#EE8772"
+        android:background="#1E2142"
         android:gravity="center"
+        android:fontFamily="@font/goyang"
+        android:textStyle="bold"
         android:text="메모 추가"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textColor="@android:color/white"
-        android:textSize="15sp"
-        android:textStyle="bold"/>
-
-    <!--<SlidingDrawer
-        android:id="@+id/slide"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:allowSingleTap="true"
-        android:animateOnClick="true"
-        android:bottomOffset="0dp"
-        android:content="@+id/content"
-        android:handle="@+id/handle"
-        android:orientation="vertical"
-        android:topOffset="60dp"
-        >
-
-        <TextView
-            android:id="@+id/handle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            />
-
-        <LinearLayout
-            android:id="@+id/content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#FFFFFFFF"
-            android:orientation="vertical"
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="SlidingDrawer의 content 부분입니다."
-                />
-            <Button
-                android:id="@+id/btnclose"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="닫기"
-                />
-        </LinearLayout>
-    </SlidingDrawer>-->
-
+        android:textSize="20sp"/>
 
 </RelativeLayout>
